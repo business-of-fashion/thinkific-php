@@ -16,7 +16,6 @@
         "psr-4" : { "Thinkific\\" : "src/Thinkific" }
     },
     "require" : {
-        "php" : ">=5.5.0",
-        "guzzle/guzzle" : "3.9.2",
+        "php" : ">=5.5.0"
     }
 }
