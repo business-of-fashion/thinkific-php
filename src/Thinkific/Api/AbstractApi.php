@@ -3,51 +3,66 @@ namespace Thinkific\Api;
 
 use Thinkific\Thinkific;
 
-abstract class AbstractApi {
+abstract class AbstractApi
+{
 
-    public function __construct( Thinkific $client ) {
+    public function __construct(Thinkific $client)
+    {
         $this->client = $client;
     }
 
     /**
      * @return mixed
      */
-    public function getAll() {
-        return json_decode( $this->client->request( [
-            "endpoint" => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
-        ] ), true )['items'];
+    public function getAll()
+    {
+
+        $split = preg_split('/\\\/', get_class($this));
+
+        return $this->client->request([
+            "endpoint" => strtolower(array_pop($split)),
+        ])['items'];
     }
 
     /**
      * Get an object by Id
+     *
      * @param $id
      *
      * @return object
      */
-    public function getById( $id ) {
+    public function getById($id)
+    {
 
-        return json_decode( $this->client->request( [
-            "endpoint" => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
+        $split = preg_split('/\\\/', get_class($this));
+
+        return $this->client->request([
+            "endpoint" => strtolower(array_pop($split)),
             "id"       => $id,
-        ] ) );
+        ]);
     }
 
     /**
      * Add something via the Api
+     *
      * @param $data
      *
      * @return mixed
      * @throws ApiException
      */
-    public function add( $data ) {
-        $result = json_decode( $this->client->request( [
-            "endpoint"   => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
-            "httpmethod" => "POST",
-            "body"       => $data
-        ] ), true );
+    public function add($data)
+    {
 
-        if ( isset( $result["errors"] ) ) {
-            throw new ApiException( $result["errors"] );
+        $split = preg_split('/\\\/', get_class($this));
+
+        $result = $this->client->request([
+            "endpoint"   => strtolower(array_pop($split)),
+            "httpmethod" => "POST",
+            "body"       => $data,
+        ]);
+
+        if (isset($result["errors"])) {
+            throw new ApiException($result["errors"]);
         } else {
             return $result;
         }
@@ -63,16 +78,19 @@ abstract class AbstractApi {
      * @return mixed
      * @throws ApiException
      */
-    public function update( $id, $data ) {
-        $result = json_decode( $this->client->request( [
-            "endpoint"   => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
+    public function update($id, $data)
+    {
+        $split = preg_split('/\\\/', get_class($this));
+
+        $result = $this->client->request([
+            "endpoint"   => strtolower(array_pop($split)),
             "httpmethod" => "PUT",
             "id"         => $id,
-            "body"       => $data
-        ] ) );
+            "body"       => $data,
+        ]);
 
-        if ( isset( $result["errors"] ) ) {
-            throw new ApiException( $result["errors"] );
+        if (isset($result["errors"])) {
+            throw new ApiException($result["errors"]);
         } else {
             return $result;
         }
@@ -86,11 +104,15 @@ abstract class AbstractApi {
      *
      * @return mixed
      */
-    public function delete( $id ) {
-        return json_decode( $this->client->request( [
-            "endpoint"   => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
+    public function delete($id)
+    {
+
+        $split = preg_split('/\\\/', get_class($this));
+
+        return $this->client->request([
+            "endpoint"   => strtolower(array_pop($split)),
             "httpmethod" => "DELETE",
-            "id"         => $id
-        ] ) );
+            "id"         => $id,
+        ]);
     }
 }

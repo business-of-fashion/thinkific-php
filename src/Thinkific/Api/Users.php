@@ -2,14 +2,24 @@
 
 namespace Thinkific\Api;
 
-class Users extends AbstractApi {
+class Users extends AbstractApi
+{
 
-    public function query( $data ) {
-            return json_decode( $this->client->request( [
-                "endpoint"   => strtolower( array_pop( preg_split( '/\\\/', get_class( $this ) ) ) ),
-                "httpmethod" => "GET",
-                "query" =>  $data
-            ]), true );
+    /**
+     *
+     *
+     * @param $data
+     *
+     * @return mixed
+     */
+    public function query($data)
+    {
+        $split = preg_split('/\\\/', get_class($this));
+
+        return $this->client->request([
+            "endpoint"   => strtolower(array_pop($split)),
+            "httpmethod" => "GET",
+            "query"      => $data,
+        ]);
     }
-
 }
