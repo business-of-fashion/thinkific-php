@@ -2,28 +2,39 @@
 
 namespace Thinkific\Api;
 
-class Products extends AbstractApi {
-
+class Products extends AbstractApi
+{
     /**
+     * @param $data
+     *
+     * @return mixed|void
      * @throws ApiException
      */
-    public function add() {
-        throw new ApiException( [ "Not Supported" => [ "The API Call 'getAll()' is not supported by the Thinkific Api" ] ] );
+    public function add($data)
+    {
+        throw new ApiException(["Not Supported" => ["The API Call 'add()' is not supported by the Thinkific Api"]]);
     }
 
     /**
+     * @param $id
+     *
+     * @return mixed|void
      * @throws ApiException
      */
-    public function delete() {
-        throw new ApiException( [ "Not Supported" => [ "The API Call 'getAll()' is not supported by the Thinkific Api" ] ] );
+    public function delete($id)
+    {
+        throw new ApiException(["Not Supported" => ["The API Call 'delete()' is not supported by the Thinkific Api"]]);
     }
 
-
-
     /**
+     * @param $id
+     * @param $data
+     *
+     * @return mixed|void
      * @throws ApiException
      */
-    public function update() {
-        throw new ApiException( [ "Not Supported" => [ "The API Call 'getAll()' is not supported by the Thinkific Api" ] ] );
+    public function update($id, $data)
+    {
+        throw new ApiException(["Not Supported" => ["The API Call 'update()' is not supported by the Thinkific Api"]]);
     }
 }

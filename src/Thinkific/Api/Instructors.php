@@ -2,7 +2,7 @@
 
 namespace Thinkific\Api;
 
-class Users extends AbstractApi
+class Instructors extends AbstractApi
 {
 
 }

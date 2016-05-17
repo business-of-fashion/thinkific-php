@@ -2,7 +2,7 @@
 
 namespace Thinkific\Api;
 
-class Promotions extends AbstractApi
+class Chapters extends AbstractApi
 {
 
 }
