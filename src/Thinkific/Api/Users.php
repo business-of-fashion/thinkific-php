@@ -8,18 +8,20 @@ class Users extends AbstractApi
     /**
      *
      *
-     * @param $data
+     * @param $query
+     * @param $params
      *
      * @return mixed
      */
-    public function query($data)
+    public function query($query, $params)
     {
         $split = preg_split('/\\\/', get_class($this));
 
         return $this->client->request([
             "endpoint"   => strtolower(array_pop($split)),
             "httpmethod" => "GET",
-            "query"      => $data,
+            "query"      => $query,
+            "params"     => $params,
         ]);
     }
 }

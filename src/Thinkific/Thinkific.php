@@ -79,12 +79,19 @@ class Thinkific
             $url .= "/".$options['id'];
         }
 
-        if (isset($options['query'])) {
-            $url .= "?".http_build_query(['query' => $options['query']]);
-        }
+        if (isset($options['query']) || isset($options['params'])) {
+            $url .= "?";
+            $params = [];
 
-        if (isset($options['params'])) {
-            $url .= "?".http_build_query($options['params']);
+            if (isset($options['query'])) {
+                $params['query'] = $options['query'];
+            }
+
+            if (isset($options['params'])) {
+                $params[] = $options['params'];
+            }
+
+            $url .= http_build_query($params);
         }
 
         $reqoptions['headers'] = [

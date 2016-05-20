@@ -12,15 +12,18 @@ abstract class AbstractApi
     }
 
     /**
+     * @param array $params
+     *
      * @return mixed
      */
-    public function getAll()
+    public function getAll($params = [])
     {
 
         $split = preg_split('/\\\/', get_class($this));
 
         return $this->client->request([
             "endpoint" => strtolower(array_pop($split)),
+            "params"   => $params,
         ])['items'];
     }
 
