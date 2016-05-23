@@ -88,7 +88,7 @@ class Thinkific
             }
 
             if (isset($options['params'])) {
-                $params[] = $options['params'];
+                $params = array_merge($params, $options['params']);
             }
 
             $url .= http_build_query($params);
