@@ -13,7 +13,6 @@ abstract class AbstractApi
         $this->client = $client;
     }
 
-
     /**
      *
      *
@@ -23,20 +22,24 @@ abstract class AbstractApi
      */
     public function query($params = [])
     {
-        $split = preg_split('/\\\/', get_class($this));
+        $split    = preg_split('/\\\/', get_class($this));
+        $endpoint = strtolower(array_pop($split));
 
         $requestParams = [
-            "endpoint" => strtolower(array_pop($split)),
-            "params"   => $params,
+            "endpoint"  => $endpoint,
+            "params"    => $params,
+            "query"     => ((isset($params['query']) && !empty($params['query'])) ? $params['query'] : null),
         ];
 
+        // @todo: Find proper solution for unset
         if (isset($params['id'])) {
             $requestParams['id'] = $params['id'];
             unset($requestParams['params']['id']);
         }
 
-        if (isset($params['query']) && !empty($params['query'])) {
-            $requestParams['query'] = $params['query'];
+        if (isset($params['subentity'])) {
+            $requestParams['subentity'] = $params['subentity'];
+            unset($requestParams['params']['subentity']);
         }
 
         $this->data = $this->client->request($requestParams);
@@ -89,13 +92,19 @@ abstract class AbstractApi
     /**
      * Get by Id
      *
-     * @param $id
+     * @param      $id
+     * @param null $subentity
      *
      * @return object
      */
-    public function queryById($id)
+    public function queryById($id, $subentity = null)
     {
-        $this->query(['id' => $id]);
+        $params = [
+            'id'        => $id,
+            'subentity' => (isset($subentity) ? $subentity : null),
+        ];
+
+        $this->query($params);
 
         return $this;
     }

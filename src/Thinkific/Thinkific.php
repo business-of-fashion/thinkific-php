@@ -74,9 +74,12 @@ class Thinkific
         $body     = isset($options['body']) ? $options['body'] : [];
 
         $url = $this->url."v".$this->apiversion."/".$endpoint;
-
         if (isset($options['id'])) {
             $url .= "/".$options['id'];
+        }
+
+        if (isset($options['subentity'])) {
+            $url .= '/'.strtolower($options['subentity']);
         }
 
         if (isset($options['query']) || isset($options['params'])) {
@@ -100,14 +103,9 @@ class Thinkific
             'X-Auth-Subdomain' => $this->subdomain,
         ];
 
-        if (count($body) > 0) {
-            $reqoptions['body'] = json_encode($body);
-        }
-
         try {
-            $client = new Client();
-
-            $response = $client->createRequest($method, $url, $reqoptions['headers'], $body, $options)->send();
+            $client   = new Client();
+            $response = $client->createRequest($method, $url, $reqoptions['headers'], $body)->send();
 
             return $response->json();
 
@@ -120,6 +118,7 @@ class Thinkific
 //            echo "</pre>";
 
         } catch (\Exception $e) {
+            dump($e->getFile(), $e->getLine());die;
             return "\nError while trying to ".$method.' '.$url." --> ".$e->getCode()." --> ".$e->getMessage();
         }
     }
