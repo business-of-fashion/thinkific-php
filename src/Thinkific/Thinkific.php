@@ -3,6 +3,7 @@
 namespace Thinkific;
 
 use Guzzle\Http\Client;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use GuzzleHttp\Exception\ClientException;
 
 class Thinkific
@@ -109,17 +110,11 @@ class Thinkific
 
             return $response->json();
 
-        } catch (ClientException $ex) {
-//            print_r( $options );
-//            echo "<pre>";
-            return "\nError while trying to ".$method.' '.$url." --> ".$ex->getCode()." --> ".$ex->getMessage()."\n".$ex->getResponse()->getBody();
-//            echo "\n---------\n";
-//            echo $ex->getRequest()->getBody();
-//            echo "</pre>";
+        } catch (ClientErrorResponseException $e) {
+            $return         = $e->getResponse()->json();
+            $return['code'] = $e->getResponse()->getStatusCode();
 
-        } catch (\Exception $e) {
-            dump($e->getFile(), $e->getLine());die;
-            return "\nError while trying to ".$method.' '.$url." --> ".$e->getCode()." --> ".$e->getMessage();
+            return $return;
         }
     }
 

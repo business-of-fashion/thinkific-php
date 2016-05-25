@@ -5,7 +5,6 @@ use Thinkific\Thinkific;
 
 abstract class AbstractApi
 {
-
     protected $data;
 
     public function __construct(Thinkific $client)
@@ -26,9 +25,9 @@ abstract class AbstractApi
         $endpoint = strtolower(array_pop($split));
 
         $requestParams = [
-            "endpoint"  => $endpoint,
-            "params"    => $params,
-            "query"     => ((isset($params['query']) && !empty($params['query'])) ? $params['query'] : null),
+            "endpoint" => $endpoint,
+            "params"   => $params,
+            "query"    => ((isset($params['query']) && !empty($params['query'])) ? $params['query'] : null),
         ];
 
         // @todo: Find proper solution for unset
@@ -45,6 +44,20 @@ abstract class AbstractApi
         $this->data = $this->client->request($requestParams);
 
         return $this;
+    }
+
+    /**
+     * Check if there is any error in request
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        if (isset($this->data['error'])) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
