@@ -132,7 +132,6 @@ abstract class AbstractApi
      */
     public function add($data)
     {
-
         $split = preg_split('/\\\/', get_class($this));
 
         $result = $this->client->request([
