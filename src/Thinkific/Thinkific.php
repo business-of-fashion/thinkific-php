@@ -4,7 +4,9 @@ namespace Thinkific;
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Guzzle\Http\QueryString;
 use GuzzleHttp\Exception\ClientException;
+use Thinkific\Aggregators\PhpAggregator;
 
 class Thinkific
 {
@@ -102,13 +104,20 @@ class Thinkific
             'Accept'           => 'application/json',
             'X-Auth-API-Key'   => $this->apikey,
             'X-Auth-Subdomain' => $this->subdomain,
+            'Content-Type'     => 'form-data',
         ];
 
         try {
-            $client   = new Client();
-            $response = $client->createRequest($method, $url, $reqoptions['headers'], $body)->send();
+            $client = new Client();
 
-            return $response->json();
+            if ($method == 'POST') {
+                $request = $client->post($url, $reqoptions['headers'], $body);
+                $request->getPostFields()->setAggregator(new PhpAggregator());
+            } else {
+                $request = $client->createRequest($method, $url, $reqoptions['headers'], $body);
+            }
+
+            return $request->send()->json();
 
         } catch (ClientErrorResponseException $e) {
             $return         = $e->getResponse()->json();
