@@ -12,11 +12,11 @@ This is under heavy construction and in early alpha stages. It is an sdk to help
 
 #### Bleeding Edge
 During your development, you can keep up with the latest changes on the master branch by setting the version
-requirement for thinkific-api to `dev-master`
+requirement for thinkific-php to `dev-master`
 ```json
 {
    "require": {
-      "elliotboney/thinkific-api": "dev-master"
+      "elliotboney/thinkific-php": "dev-master"
    }
 }
 ```
@@ -24,7 +24,7 @@ requirement for thinkific-api to `dev-master`
 
 #### Via command line:
 ```shell
-composer require elliotboney/thinkific-api
+composer require elliotboney/thinkific-php
 ```
 
 
