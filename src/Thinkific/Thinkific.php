@@ -117,7 +117,9 @@ class Thinkific
                 $request = $client->createRequest($method, $url, $reqoptions['headers'], $body);
             }
 
-            return $request->send()->json();
+            $response = $request->send();
+
+            return $response->getBody(true) ? $response->json() : [];
 
         } catch (ClientErrorResponseException $e) {
             $return         = $e->getResponse()->json();
